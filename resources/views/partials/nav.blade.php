@@ -23,19 +23,46 @@
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1 z-10">
         <li><a href="{{ route('about') }}">About</a></li>
-        <li>
-          <details>
-            <summary>Admin</summary>
-            <ul class="p-2">
-              <li><a href="{{ route('posts.index') }}">Posts</a></li>
-              <li><a>Submenu 2</a></li>
-            </ul>
-          </details>
-        </li>
+        @auth
+
+          <li>
+            <details>
+              <summary>Admin</summary>
+              <ul class="p-2">
+                <li><a href="{{ route('posts.index') }}">Posts</a></li>
+                <li><a>Submenu 2</a></li>
+              </ul>
+            </details>
+          </li>
+
+        @endauth
         <li><a>Item 3</a></li>
       </ul>
     </div>
-    <div class="navbar-end">
-      <a class="btn">Contact us</a>
+    <div class="navbar-end gap-2">
+      @auth
+
+        <ul class="menu menu-horizontal px-1 z-10">
+            <li>
+              <details>
+                <summary>{{ auth()->user()->name }}</summary>
+                <ul class="p-2">
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-ghost">Logout</button>
+                    </li>
+                  <li><a href="{{ route('posts.index') }}">Posts</a></li>
+                  <li><a>Submenu 2</a></li>
+                </ul>
+              </details>
+            </li>
+        </ul>
+
+
+      @else
+        <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+        <a href="{{ route('login') }}" class="btn btn-secondary">Login</a>
+      @endauth
     </div>
   </div>
